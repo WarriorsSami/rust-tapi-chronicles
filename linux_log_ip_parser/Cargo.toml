@@ -1,0 +1,11 @@
+[package]
+name = "linux_log_ip_parser"
+version = "0.1.0"
+edition = "2024"
+
+[dependencies]
+tokio = { version = "1", features = ["full"] }
+tokio-stream = "0.1.17"
+tokio-util = "0.7.17"
+reqwest = { version = "0.12.24", features = ["stream"] }
+regex = "1.12.2"
