@@ -1,0 +1,10 @@
+assembling_rates:
+  skeleton_producer:
+    delay: 500 # ms per skeleton
+    capacity: 10 # max skeletons in buffer
+  motor_producer:
+    delay: 1000 # ms per motor
+    capacity: 5 # max motors in buffer
+  robot_producer:
+    delay: 2000 # ms per robot
+    capacity: 3 # max robots in buffer

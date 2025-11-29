@@ -4,8 +4,10 @@
     <content url="file://$MODULE_DIR$">
       <sourceFolder url="file://$MODULE_DIR$/apache_log_parser/src" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/linux_log_ip_parser/src" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/robot_mpsc/src" isTestSource="false" />
       <excludeFolder url="file://$MODULE_DIR$/apache_log_parser/target" />
       <excludeFolder url="file://$MODULE_DIR$/linux_log_ip_parser/target" />
+      <excludeFolder url="file://$MODULE_DIR$/robot_mpsc/target" />
     </content>
     <orderEntry type="inheritedJdk" />
     <orderEntry type="sourceFolder" forTests="false" />

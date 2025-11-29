@@ -1,0 +1,13 @@
+[package]
+name = "robot_mpsc"
+version = "0.1.0"
+edition = "2024"
+
+[dependencies]
+serde = { version = "1.0.228", features = ["derive"] }
+serde_yaml = "0.9.33"
+crossbeam = "0.8"
+crossbeam-channel = "0.5"
+rand = "0.10.0-rc.5"
+ctrlc = "3.4"
+anyhow = "1.0.100"
