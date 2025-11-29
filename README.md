@@ -27,9 +27,51 @@ Multi-threaded robot assembly simulation using producer-consumer pattern with ch
 
 ## Getting Started
 
+### Prerequisites
+
+You'll need Rust installed on your system. If you don't have Rust installed yet, follow the instructions below.
+
+### Installing Rust
+
+#### macOS/Linux
+
+1. Open a terminal and run:
+   ```bash
+   curl --proto '=https' --tlsv1.2 -sSf https://sh.rustup.rs | sh
+   ```
+
+2. Follow the on-screen instructions (typically just press Enter to accept defaults)
+
+3. Restart your terminal or run:
+   ```bash
+   source $HOME/.cargo/env
+   ```
+
+4. Verify the installation:
+   ```bash
+   rustc --version
+   cargo --version
+   ```
+
+#### Windows
+
+1. Download and run [rustup-init.exe](https://rustup.rs/)
+
+2. Follow the on-screen instructions
+
+3. Restart your terminal
+
+4. Verify the installation:
+   ```powershell
+   rustc --version
+   cargo --version
+   ```
+
+### Running the Challenges
+
 Each challenge is a standalone Rust crate. Navigate to the respective directory and follow the instructions in its README.
 
 ## Requirements
 
 - Rust 2024 edition or later
-- Cargo package manager
+- Cargo package manager (installed automatically with Rust)
