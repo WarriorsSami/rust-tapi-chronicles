@@ -1,0 +1,16 @@
+[package]
+name = "shell_protocol"
+version = "0.1.0"
+edition = "2024"
+
+[[bin]]
+name = "shell_protocol_tcp_client"
+path = "src/bin/tcp_client.rs"
+
+[[bin]]
+name = "shell_protocol_tcp_server"
+path = "src/bin/tcp_server.rs"
+
+[dependencies]
+serde = { version = "1.0", features = ["derive"] }
+bincode = { version = "2.0", features = ["serde"] }
