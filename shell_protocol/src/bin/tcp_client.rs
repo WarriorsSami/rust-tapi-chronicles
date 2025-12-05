@@ -69,10 +69,19 @@ fn do_download(stream: &mut TcpStream, remote_path: &str, local_folder: &str) ->
     let resp: Response = decode_from_std_read(stream, standard())
         .map_err(|e| io::Error::new(io::ErrorKind::InvalidData, format!("decode error: {e}")))?;
 
+    println!("Response: {:?}", resp);
+
     match resp {
         Response::FileMetadata { name, size } => {
             let local_path = std::path::Path::new(local_folder).join(&name);
+            println!("Downloading {} to {}", name, local_path.display());
+
+            // create parent dir if needed
+            if let Some(parent) = local_path.parent() {
+                let _ = std::fs::create_dir_all(parent);
+            }
             let mut f = File::create(&local_path)?;
+
             let mut remaining = size;
             let mut buf = [0u8; 8192];
             let mut total_read = 0u64;
@@ -80,15 +89,23 @@ fn do_download(stream: &mut TcpStream, remote_path: &str, local_folder: &str) ->
             while remaining > 0 {
                 let to_read = std::cmp::min(buf.len() as u64, remaining) as usize;
                 let n = stream.read(&mut buf[..to_read])?;
+                println!("Read {} bytes", n);
                 if n == 0 {
                     return Err(io::Error::new(
                         io::ErrorKind::UnexpectedEof,
-                        format!("Connection closed after {} of {} bytes", total_read, size)
+                        format!("Connection closed after {} of {} bytes", total_read, size),
                     ));
                 }
                 f.write_all(&buf[..n])?;
                 remaining -= n as u64;
                 total_read += n as u64;
+                println!(
+                    "Downloading {}: {}/{} bytes ({:.2}%)",
+                    name,
+                    total_read,
+                    size,
+                    (total_read as f64 / size as f64) * 100.0
+                );
             }
             f.flush()?;
             println!(

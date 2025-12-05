@@ -99,16 +99,16 @@ fn handle_client(mut stream: TcpStream, root: PathBuf) -> std::io::Result<()> {
                 } else {
                     cwd.join(&dst_path).join(&file_name)
                 };
-                
+
                 if let Some(parent) = dest.parent() {
                     let _ = fs::create_dir_all(parent);
                 }
-                
+
                 match File::create(&dest) {
                     Ok(mut f) => {
                         // Send OK response to acknowledge we're ready to receive
                         send_response(&mut stream, &Response::Ok)?;
-                        
+
                         let mut remaining = size;
                         let mut buf = [0u8; 8192];
                         while remaining > 0 {
@@ -188,21 +188,39 @@ fn main() -> std::io::Result<()> {
     let listener = TcpListener::bind(addr)?;
     println!("Server listening on {}", addr);
 
-    for stream in listener.incoming() {
-        match stream {
-            Ok(s) => {
-                println!("Client connected: {}", s.peer_addr()?);
-                if let Err(e) = handle_client(s, root.clone()) {
-                    eprintln!("Client handler error: {:?}", e);
+    let mut client_connected = false;
+
+    loop {
+        match listener.accept() {
+            Ok((mut stream, peer_addr)) => {
+                if client_connected {
+                    // Reject the connection - another client is already connected
+                    println!(
+                        "Connection attempt from {} rejected (server busy)",
+                        peer_addr
+                    );
+                    let _ = send_response(
+                        &mut stream,
+                        &Response::Error(
+                            "Server busy: another client is already connected".to_string(),
+                        ),
+                    );
+                    drop(stream); // Close the connection
+                } else {
+                    println!("Client connected: {}", peer_addr);
+                    client_connected = true;
+
+                    if let Err(e) = handle_client(stream, root.clone()) {
+                        eprintln!("Client handler error: {:?}", e);
+                    }
+
+                    println!("Client disconnected");
+                    client_connected = false;
                 }
-                println!("Client disconnected");
-                break; // single-client only
             }
             Err(e) => {
                 eprintln!("Accept error: {:?}", e);
             }
         }
     }
-
-    Ok(())
 }
