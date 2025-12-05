@@ -25,6 +25,13 @@ Multi-threaded robot assembly simulation using producer-consumer pattern with ch
 
 [View details →](./robot_mpsc/README.md)
 
+### 4. Shell Protocol (TCP & UDP)
+Remote file system operations with both TCP and UDP implementations.
+
+**Key concepts:** TCP vs UDP protocols, client-server architecture, streaming vs chunked file transfers, session management, binary serialization
+
+[View details →](./shell_protocol/README.md)
+
 ## Getting Started
 
 ### Prerequisites
